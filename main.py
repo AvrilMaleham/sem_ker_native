@@ -83,6 +83,32 @@ class LightsPlugin:
         new_id = max([light["id"] for light in self.lights], default=0) + 1
         self.lights.append({"id": new_id, "name": name, "is_on": is_on})
         return f"Light '{name}' added with ID {new_id} and state {'on' if is_on else 'off'}."
+    
+    @kernel_function(
+    name="remove_light",
+    description="Removes a light by its ID or name.",
+)
+    def remove_light(
+        self,
+        id: int = None,
+        name: str = None,
+    ) -> str:
+        """Removes a light from the list by ID or name."""
+        if id is not None:
+            for light in self.lights:
+                if light["id"] == id:
+                    self.lights.remove(light)
+                    return f"Light with ID {id} removed."
+            return f"No light found with ID {id}."
+
+        if name is not None:
+            for light in self.lights:
+                if light["name"].lower() == name.lower():
+                    self.lights.remove(light)
+                    return f"Light '{name}' removed."
+            return f"No light found with name '{name}'."
+
+        return "Please provide either an ID or a name to remove a light."
 
 
 
