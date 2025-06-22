@@ -69,6 +69,21 @@ class LightsPlugin:
                 light["name"] = new_name 
                 return f"Light '{old_name}' changed to '{new_name}'"
         return f"No light found with id {id} and name '{old_name}'"
+    
+    @kernel_function(
+        name="add_light",
+        description="Adds a new light with a name and on/off state.",
+    )
+    def add_light(
+        self,
+        name: str,
+        is_on: bool = False,
+    ) -> str:
+        """Adds a new light to the system."""
+        new_id = max([light["id"] for light in self.lights], default=0) + 1
+        self.lights.append({"id": new_id, "name": name, "is_on": is_on})
+        return f"Light '{name}' added with ID {new_id} and state {'on' if is_on else 'off'}."
+
 
 
 async def main():
