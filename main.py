@@ -12,6 +12,7 @@ from semantic_kernel.connectors.ai.open_ai.prompt_execution_settings.azure_chat_
 )
 
 from lights_plugin import LightsPlugin
+from thermostat_plugin import ThermostatPlugin
 
 import logging
 
@@ -44,6 +45,11 @@ async def main():
     kernel.add_plugin(
         LightsPlugin(),
         plugin_name="Lights",
+    )
+    
+    kernel.add_plugin(
+        ThermostatPlugin(),
+        plugin_name="Thermostat",
     )
 
     # Enable planning
